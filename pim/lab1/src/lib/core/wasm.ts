@@ -1,35 +1,28 @@
 
-// const wasm = await import('$lib/imglibrs/pkg/imglibrs.js')
 
-let wasm: any = null
+//@ts-ignore
+import init, { process_image, rotate90, apply_kernel, apply_median, sharpen, motion_blur, emboss, erosion, dilation, opening, closing, gradient, cylinder, blackhat } from '$lib/pkg/imglibrs.js'
 
-export async function initWasm() {
-    if (!wasm) {
-        const wasmUrl = '/pkg/imglibrs.js'
-        wasm = await import(/* @vite-ignore */ wasmUrl)
-    }
-
-    return wasm
+export function initWasm() {
+    return init()
 }
 
-
-export async function applyFiltersWasm(
+export function applyFiltersWasm(
     imageData: ImageData,
     brightness: number,
     contrast: number,
     saturation: number,
     grayscale: boolean
-): Promise<ImageData> {
-    if (!wasm) await initWasm()
+): ImageData {
 
     const data = new Uint8Array(imageData.data)
     
-    wasm.process_image(data, brightness, contrast, saturation, grayscale)
+    process_image(data, brightness, contrast, saturation, grayscale)
     return new ImageData(new Uint8ClampedArray(data), imageData.width, imageData.height)
 }
 
 export function rotate90Wasm(imageData: ImageData): ImageData {
-    const rotated = wasm.rotate90(new Uint8Array(imageData.data), imageData.width, imageData.height)
+    const rotated = rotate90(new Uint8Array(imageData.data), imageData.width, imageData.height)
 
     return new ImageData(
         new Uint8ClampedArray(rotated),
@@ -44,7 +37,7 @@ export function applyKernelWasm(
     kW: number,
     kH: number
 ): ImageData {
-    const out = wasm.apply_kernel(new Uint8Array(imageData.data), imageData.width, imageData.height, kernel, kW, kH)
+    const out = apply_kernel(new Uint8Array(imageData.data), imageData.width, imageData.height, kernel, kW, kH)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
@@ -52,22 +45,22 @@ export function applyMedianWasm(
     imageData: ImageData,
     kSize: number
 ): ImageData {
-    const out = wasm.apply_median(new Uint8Array(imageData.data), imageData.width, imageData.height, kSize)
+    const out = apply_median(new Uint8Array(imageData.data), imageData.width, imageData.height, kSize)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }   
 
 export function sharpenWasm(imageData: ImageData): ImageData {
-    const out = wasm.sharpen(new Uint8Array(imageData.data), imageData.width, imageData.height)
+    const out = sharpen(new Uint8Array(imageData.data), imageData.width, imageData.height)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
 export function motionBlurWasm(imageData: ImageData): ImageData {
-    const out = wasm.motion_blur(new Uint8Array(imageData.data), imageData.width, imageData.height)
+    const out = motion_blur(new Uint8Array(imageData.data), imageData.width, imageData.height)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
 export function embossWasm(imageData: ImageData): ImageData {
-    const out = wasm.emboss(new Uint8Array(imageData.data), imageData.width, imageData.height)
+    const out = emboss(new Uint8Array(imageData.data), imageData.width, imageData.height)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
@@ -77,7 +70,7 @@ export function erosionWasm(
     seW: number,
     seH: number
 ): ImageData {
-    const out = wasm.erosion(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
+    const out = erosion(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
@@ -87,7 +80,7 @@ export function dilationWasm(
     seW: number,
     seH: number
 ): ImageData {
-    const out = wasm.dilation(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
+    const out = dilation(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
@@ -97,7 +90,7 @@ export function openingWasm(
     seW: number,
     seH: number
 ): ImageData {
-    const out = wasm.opening(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
+    const out = opening(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
@@ -107,7 +100,7 @@ export function closingWasm(
     seW: number,
     seH: number
 ): ImageData {
-    const out = wasm.closing(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
+    const out = closing(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
@@ -117,7 +110,7 @@ export function gradientWasm(
     seW: number,
     seH: number
 ): ImageData {
-    const out = wasm.gradient(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
+    const out = gradient(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
@@ -127,7 +120,7 @@ export function cylinderWasm(
     seW: number,
     seH: number
 ): ImageData {
-    const out = wasm.cylinder(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
+    const out = cylinder(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
@@ -137,7 +130,7 @@ export function blackhatWasm(
     seW: number,
     seH: number
 ): ImageData {
-    const out = wasm.blackhat(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
+    const out = blackhat(new Uint8Array(imageData.data), imageData.width, imageData.height, se, seW, seH)
     return new ImageData(new Uint8ClampedArray(out), imageData.width, imageData.height)
 }
 
