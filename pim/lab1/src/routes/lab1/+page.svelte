@@ -1,7 +1,7 @@
 
 <script lang="ts">
 	import * as ExifReader from "exifreader"
-	import { initWasm, applyFiltersWasm, rotate90Wasm, erosionWasm, dilationWasm, applyKernelWasm } from "$lib/core/wasm"
+	import { rotate90Wasm } from "$lib/core/wasm"
 	import { onMount } from "svelte";
 
 	import { drawHistogram } from "$lib/core/histogram";

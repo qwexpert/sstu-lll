@@ -1,12 +1,6 @@
-import * as wasmModule from '$lib/pkg/imglibrs.js'
 
-let wasm: any = null
+const wasm = await import('$lib/imglibrs/pkg/imglibrs.js')
 
-export async function initWasm() {
-  if (!wasm) wasm = await wasmModule.default?.() ?? wasmModule
-
-  return wasm
-}
 
 export function applyFiltersWasm(
     imageData: ImageData,
@@ -15,6 +9,7 @@ export function applyFiltersWasm(
     saturation: number,
     grayscale: boolean
 ): ImageData {
+
     const data = new Uint8Array(imageData.data)
     
     wasm.process_image(data, brightness, contrast, saturation, grayscale)

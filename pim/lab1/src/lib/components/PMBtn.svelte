@@ -28,8 +28,8 @@
 </script>
 
 <form class="w-full flex justify-between items-center space-x-2">
-    <label class="text-sm font-medium text-gray-400">{label}</label>
-    <div class="relative flex items-start max-w-[8rem]">
+    <label for="btn" class="text-sm font-medium text-gray-400">{label}</label>
+    <div id="btn" class="relative flex items-start max-w-[8rem]">
         <button type="button" on:click={minus} class="bg-border border border-border rounded-s-lg p-3 h-11 focus:ring-[#343434] focus:ring-2 focus:outline-none cursor-pointer">-</button>
         <input
         type="text"
