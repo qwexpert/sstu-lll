@@ -57,18 +57,6 @@
 		pushHistory(rotated, rotated.width, rotated.height)
 	}
 
-	const applyCustomKernel = () => {
-		if (!originalImageData) return
-
-		const processed = applyKernelWasm(originalImageData, kernel, kW, kH)
-
-		ctx!.putImageData(processed, 0, 0)
-		originalImageData = processed
-
-		drawHistogram(processed, histCtx, histCanvas)
-		pushHistory(processed, processed.width, processed.height)
-	}
-
 	const undoStep = () => {
 		const prev = undo()
 

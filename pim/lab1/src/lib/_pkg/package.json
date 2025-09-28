@@ -1,0 +1,17 @@
+{
+  "name": "imglibrs",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "imglibrs_bg.wasm",
+    "imglibrs.js",
+    "imglibrs_bg.js",
+    "imglibrs.d.ts"
+  ],
+  "main": "imglibrs.js",
+  "types": "imglibrs.d.ts",
+  "sideEffects": [
+    "./imglibrs.js",
+    "./snippets/*"
+  ]
+}

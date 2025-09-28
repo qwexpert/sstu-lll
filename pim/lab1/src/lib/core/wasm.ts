@@ -1,7 +1,11 @@
-import * as wasm from "$lib/pkg/imglibrs.js"
+import * as wasmModule from '$lib/pkg/imglibrs.js'
+
+let wasm: any = null
 
 export async function initWasm() {
-    await wasm.init()
+  if (!wasm) wasm = await wasmModule.default?.() ?? wasmModule
+
+  return wasm
 }
 
 export function applyFiltersWasm(
