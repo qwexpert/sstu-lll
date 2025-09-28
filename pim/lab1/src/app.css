@@ -1,0 +1,34 @@
+@import 'tailwindcss';
+
+@theme {
+    --color-body: #0d1117;
+    --color-bg: #151b23;
+    --color-border: #212830;
+}
+
+
+@layer utilities {
+    .dotted-bg {
+        background-image: radial-gradient(circle, #212830 2px, transparent 2px);
+        background-size: 20px 20px;
+    }
+
+    a, p, span, h1, h2, h3, h4, h5, h6, input, button, form, ul, ol, li, div {
+        font-family: monospace;
+        color: #9CA3AF;
+    }
+}
+
+@layer components {
+    input[type="range"]::-webkit-slider-thumb {
+        @apply appearance-none h-2 w-4 rounded-full bg-[#232323] cursor-pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        @apply appearance-none h-2 w-4 rounded-full bg-[#232323] cursor-pointer;
+    }
+
+    input[type="range"]::-ms-thumb {
+        @apply appearance-none h-2 w-4 rounded-full bg-[#232323] cursor-pointer;
+    }
+}
