@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { applyFiltersWasm } from "$lib/core/wasm"
+	import { applyFiltersWasm, initWasm } from "$lib/core/wasm"
 	import { drawHistogram } from "$lib/core/histogram"
 	import { pushHistory } from "$lib/core/history"
 	import PMBtn from "$lib/components/PMBtn.svelte";
+	import { onMount } from "svelte";
 
 	export let brightness: number
 	export let contrast: number
@@ -30,6 +31,8 @@
 		drawHistogram(processed, histCtx, histCanvas)
 		pushHistory(processed, processed.width, processed.height)
 	}
+
+	onMount(async () => await initWasm())
 </script>
 
 <div class="flex gap-6 items-center w-full">
