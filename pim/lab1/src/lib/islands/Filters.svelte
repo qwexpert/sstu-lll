@@ -15,10 +15,10 @@
 	export let histCanvas: HTMLCanvasElement
 	export let histCtx: CanvasRenderingContext2D
 
-	const applyFilters = () => {
+	const applyFilters = async () => {
 		if (!originalImageData) return
 
-		const processed = applyFiltersWasm(
+		const processed = await applyFiltersWasm(
 			originalImageData,
 			brightness,
 			contrast,

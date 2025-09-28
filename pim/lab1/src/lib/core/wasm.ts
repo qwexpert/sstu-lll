@@ -13,13 +13,14 @@ export async function initWasm() {
 }
 
 
-export function applyFiltersWasm(
+export async function applyFiltersWasm(
     imageData: ImageData,
     brightness: number,
     contrast: number,
     saturation: number,
     grayscale: boolean
-): ImageData {
+): Promise<ImageData> {
+    if (!wasm) await initWasm()
 
     const data = new Uint8Array(imageData.data)
     
