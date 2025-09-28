@@ -1,5 +1,16 @@
 
-const wasm = await import('$lib/imglibrs/pkg/imglibrs.js')
+// const wasm = await import('$lib/imglibrs/pkg/imglibrs.js')
+
+let wasm: any = null
+
+export async function initWasm() {
+    if (!wasm) {
+        const wasmUrl = '/pkg/imglibrs.js'
+        wasm = await import(/* @vite-ignore */ wasmUrl)
+    }
+
+    return wasm
+}
 
 
 export function applyFiltersWasm(
