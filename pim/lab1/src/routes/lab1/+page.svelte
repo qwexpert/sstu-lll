@@ -9,6 +9,7 @@
 	import Kernel from "$lib/islands/Kernel.svelte";
 	import Morphs from "$lib/islands/Morphs.svelte";
 	import Filters from "$lib/islands/Filters.svelte";
+	import Menu from "$lib/components/Menu.svelte";
 
 	let file: File | null = null
 	let imageUrl: string | null = null
@@ -40,41 +41,6 @@
 	let kernel: Float32Array = new Float32Array([0, -1, 0, -1, 5, -1, 0, -1, 0])
 
 	let activeTab: "filters" | "morphs" | "kernel" = "filters"
-
-	const rotate90 = () => {
-		const imageData = ctx!.getImageData(0, 0, canvas.width, canvas.height)
-
-		if (!imageData) return
-
-		const rotated = rotate90Wasm(imageData)
-
-		canvas.width = rotated.width
-		canvas.height = rotated.height
-		ctx!.putImageData(rotated, 0, 0)
-
-		originalImageData = rotated
-
-		pushHistory(rotated, rotated.width, rotated.height)
-	}
-
-	const undoStep = () => {
-		const prev = undo()
-
-		if (!prev || !ctx) return
-
-		canvas.width = prev.width
-    	canvas.height = prev.height
-
-		ctx.putImageData(prev.imageData, 0, 0)
-		originalImageData = prev.imageData
-
-		brightness = 100
-		contrast = 100
-		saturation = 100
-		grayscale = false
-
-		drawHistogram(prev.imageData, histCtx, histCanvas)
-	}
 
 	const handleFileUpload = async (e: Event) => {
 		const input = e.target as HTMLInputElement
@@ -112,14 +78,6 @@
 				resetHistory(originalImageData, originalImageData.width, originalImageData.height)
 			}
 		}
-	}
-
-	const saveImage = () => {
-		const link = document.createElement("a")
-
-		link.download = "processed.png"
-		link.href = canvas.toDataURL()
-		link.click()
 	}
 
 	onMount(async () => {
@@ -174,6 +132,7 @@
 			</label>
 		</div>
 	{:else}
+		<Menu {canvas} {ctx} {originalImageData} {histCanvas} {histCtx} bind:brightness bind:contrast bind:saturation bind:grayscale />
 		<div
 			class="max-w-full max-h-[60vh] grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-bg border-2 border-border rounded-lg"
 		>	
@@ -191,19 +150,6 @@
 						{/each}
 					</ul>
 					
-				</div>
-				<div class="w-full h-12 max-w-lg border border-border rounded-full bottom-4 opacity-75">
-            		<div class="grid h-full max-w-lg grid-cols-3 mx-auto">
-					<button
-						class="px-4 py-2 cursor-pointer hover:font-black duration-300"
-						on:click={rotate90}>Повернуть 90°</button
-					>
-					<button class="px-4 py-2 bg-border uppercase cursor-pointer hover:font-black duration-300" on:click={undoStep}>ctrl + z</button>
-					<button
-						class="px-4 py-2 cursor-pointer hover:font-black duration-300"
-						on:click={saveImage}>Сохранить</button
-					>
-					</div>
 				</div>
 			</div>
 			
@@ -238,3 +184,4 @@
 		</div>
 	{/if}
 </div>
+

@@ -1,9 +1,10 @@
 <script lang="ts">
 	import "../app.css"
 	import favicon from "$lib/assets/favicon.svg"
-	import Navbar from "$lib/islands/Navbar.svelte";
+	import Navbar from "$lib/islands/Navbar.svelte"
 
-	let { children } = $props();
+	let { children } = $props()
+
 </script>
 
 <svelte:head>
